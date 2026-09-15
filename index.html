@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Anny Ótica | Boutique Visual</title>
+    
+    <!-- Fontes e Ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-deep: #19191b; 
+            --surface-glass: rgba(32, 32, 36, 0.92);
+            --surface-card: rgba(24, 24, 27, 0.95);
+            --rose-gold: #e5be9e;
+            --rose-gold-light: #fef1e5;
+            --rose-gold-dark: #c0916d;
+            --text-main: #fcfcfc;
+            --text-muted: #b3b3b3;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND CINEMATOGRÁFICO: Partículas com Cores da Logo --- */
+        .particles-bg { position: fixed; inset: 0; z-index: -1; background: var(--bg-deep); pointer-events: none; }
+        .dust {
+            position: absolute; width: 3.5px; height: 3.5px; border-radius: 50%;
+            box-shadow: 
+                6vw 10vh var(--rose-gold-light), 22vw 35vh var(--rose-gold), 70vw 5vh var(--rose-gold-light), 
+                42vw 68vh var(--rose-gold-dark), 85vw 80vh var(--rose-gold), 15vw 55vh var(--rose-gold-light), 
+                32vw 20vh var(--rose-gold-dark), 55vw 12vh var(--rose-gold), 78vw 45vh var(--rose-gold-light), 
+                3vw 72vh var(--rose-gold), 40vw 32vh var(--rose-gold-light), 10vw 82vh var(--rose-gold-dark),
+                90vw 25vh var(--rose-gold), 60vw 88vh var(--rose-gold-light), 48vw 48vh var(--rose-gold-light),
+                18vw 28vh var(--rose-gold), 75vw 70vh var(--rose-gold-dark), 25vw 88vh var(--rose-gold-light),
+                95vw 55vh var(--rose-gold-dark), 5vw 40vh var(--rose-gold-light);
+            animation: drift 16s linear infinite; opacity: 0.85; filter: blur(0.8px);
+        }
+        @keyframes drift { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-100vh) scale(1.5); } }
+
+        /* --- CONTAINER PRINCIPAL RESPONSIVO --- */
+        .app-wrapper {
+            width: 100%; max-width: 420px; max-height: 94vh; background: var(--surface-glass);
+            backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
+            border-radius: 24px; border: 1px solid rgba(229, 190, 158, 0.22);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08);
+            display: flex; flex-direction: column; position: relative; z-index: 10;
+            overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+            animation: appFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .app-wrapper::-webkit-scrollbar { display: none; }
+        @keyframes appFadeIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        /* --- HEADER & LOGO --- */
+        .header { text-align: center; padding: 25px 16px 15px 16px; flex-shrink: 0; }
+        .logo-symbol { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px; }
+        .logo-line { height: 1px; width: 35px; background: linear-gradient(90deg, transparent, var(--rose-gold)); }
+        .logo-line.right { background: linear-gradient(270deg, transparent, var(--rose-gold)); }
+        .logo-icon { color: var(--rose-gold); font-size: 22px; animation: glowPulse 3s infinite alternate; }
+        
+        .brand-text {
+            font-size: 28px; font-weight: 300; letter-spacing: 4px;
+            background: linear-gradient(to right, var(--rose-gold-light), var(--rose-gold), var(--rose-gold-dark));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;
+        }
+        
+        .star-pos { position: relative; display: inline-block; }
+        .star-pos::before {
+            content: '✦'; position: absolute; top: -8px; right: -8px; font-size: 12px;
+            color: var(--rose-gold-light); text-shadow: 0 0 10px rgba(254, 241, 229, 0.8);
+            -webkit-text-fill-color: var(--rose-gold-light); animation: starTwinkle 2s infinite ease-in-out alternate;
+        }
+        .star-pos.delay::before { animation-delay: 1s; }
+        
+        @keyframes starTwinkle { 0% { opacity: 0.3; transform: scale(0.7) rotate(0deg); } 100% { opacity: 1; transform: scale(1.2) rotate(20deg); } }
+        @keyframes glowPulse { 0% { filter: drop-shadow(0 0 2px var(--rose-gold)); } 100% { filter: drop-shadow(0 0 10px var(--rose-gold-light)); } }
+
+        .slogan { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 8px; line-height: 1.4; font-weight: 500; }
+        .slogan span { color: var(--rose-gold); font-weight: 600; display: block; margin-top: 2px; }
+
+        /* --- MENU DE NAVEGAÇÃO --- */
+        .tabs { 
+            display: flex; gap: 6px; margin: 0 16px 16px 16px; flex-shrink: 0; 
+            background: rgba(0,0,0,0.2); padding: 6px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.04);
+        }
+        .tab {
+            flex: 1; background: transparent; border: 1px solid transparent;
+            color: var(--text-muted); padding: 9px 0; border-radius: 8px; font-size: 9.5px; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: var(--transition);
+            text-align: center;
+        }
+        .tab:hover { color: var(--rose-gold-light); }
+        .tab.active { 
+            background: linear-gradient(135deg, rgba(229, 190, 158, 0.22), rgba(192, 145, 109, 0.15)); 
+            color: var(--rose-gold-light); border-color: var(--rose-gold); 
+            box-shadow: 0 4px 12px rgba(229, 190, 158, 0.15); 
+        }
+
+        /* --- CONTEÚDO DAS ABAS --- */
+        .tab-content { display: none; padding: 0 16px 20px 16px; animation: slideUpFade 0.4s ease forwards; }
+        .tab-content.active { display: flex; flex-direction: column; gap: 14px; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- BOTÕES E CTAS --- */
+        .btn-primary {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, var(--rose-gold) 0%, var(--rose-gold-dark) 100%);
+            color: var(--bg-deep); padding: 14px; border-radius: 12px; font-weight: 700; font-size: 12px;
+            letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+            box-shadow: 0 6px 18px rgba(229, 190, 158, 0.25); transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg); animation: buttonShine 4s infinite;
+        }
+        @keyframes buttonShine { 0% { left: -100%; } 20%, 100% { left: 200%; } }
+        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-instagram {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: rgba(229, 190, 158, 0.08); border: 1px solid rgba(229, 190, 158, 0.3);
+            color: var(--rose-gold-light); padding: 12px; border-radius: 12px; font-weight: 600; font-size: 11px;
+            letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: var(--transition);
+        }
+        .btn-instagram:hover { background: rgba(229, 190, 158, 0.18); border-color: var(--rose-gold); }
+
+        /* --- CARDS DE LOCALIZAÇÃO --- */
+        .card { background: var(--surface-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 15px; transition: var(--transition); }
+        .card:hover { border-color: rgba(229, 190, 158, 0.4); }
+        .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .card-header i { color: var(--rose-gold); font-size: 14px; }
+        .card-title { font-size: 12px; color: var(--rose-gold-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+        .card-text { font-size: 10.5px; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
+        
+        .badge-status {
+            display: inline-block; font-size: 8.5px; font-weight: 700; text-transform: uppercase;
+            background: rgba(229, 190, 158, 0.15); color: var(--rose-gold); padding: 2px 7px;
+            border-radius: 5px; margin-bottom: 6px; border: 1px solid rgba(229, 190, 158, 0.3);
+        }
+
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid var(--rose-gold);
+            color: var(--rose-gold); padding: 8px 12px; border-radius: 7px; font-size: 9.5px; font-weight: 600; text-transform: uppercase; text-decoration: none; transition: var(--transition);
+        }
+        .btn-outline:hover { background: rgba(229, 190, 158, 0.12); color: var(--rose-gold-light); }
+
+        /* --- SLIDER PARALLAX COM DESFOQUE --- */
+        .slider-wrapper { margin-bottom: 10px; }
+        .slider-title { font-size: 10.5px; color: var(--rose-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        
+        .parallax-slider-container {
+            position: relative; width: 100%; height: 150px; border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(229, 190, 158, 0.3); box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        }
+        .parallax-slide {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            opacity: 0; filter: blur(8px) scale(1.1); transform: scale(1.05);
+            transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out, transform 1s ease-out;
+            display: flex; align-items: flex-end; padding: 12px;
+        }
+        .parallax-slide.active { opacity: 1; filter: blur(0px) scale(1); transform: scale(1); z-index: 2; }
+        .parallax-slide::after {
+            content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%); z-index: 1;
+        }
+        .parallax-tag {
+            position: relative; z-index: 3; font-size: 11px; font-weight: 700; color: var(--text-main);
+            text-transform: uppercase; letter-spacing: 1.5px; background: rgba(32, 32, 36, 0.75);
+            padding: 5px 12px; border-radius: 6px; border: 1px solid rgba(229, 190, 158, 0.4);
+            backdrop-filter: blur(8px);
+        }
+        .slider-controls {
+            position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between;
+            transform: translateY(-50%); z-index: 10; padding: 0 8px; pointer-events: none;
+        }
+        .slider-btn {
+            background: rgba(32, 32, 36, 0.85); border: 1px solid rgba(229, 190, 158, 0.4); color: var(--rose-gold);
+            width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; pointer-events: auto; transition: var(--transition); font-size: 10px;
+        }
+        .slider-btn:hover { background: var(--rose-gold); color: var(--bg-deep); }
+
+        /* --- CARROSSEL DE CLIENTES VIP (LOOP INFINITO PERFEITO) --- */
+        .circle-slider-wrapper { margin-top: 10px; }
+        .circle-marquee { width: 100%; overflow: hidden; position: relative; padding: 4px 0; }
+        .circle-marquee-content { display: flex; gap: 14px; width: max-content; animation: scrollCircleMarquee 15s linear infinite; }
+        .circle-marquee-content:hover { animation-play-state: paused; }
+        @keyframes scrollCircleMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .client-profile-card { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 68px; text-align: center; }
+        .client-avatar {
+            width: 58px; height: 58px; border-radius: 50%; background-size: cover; background-position: center;
+            border: 2px solid var(--rose-gold); padding: 2px; box-shadow: 0 3px 10px rgba(229, 190, 158, 0.25);
+            transition: var(--transition);
+        }
+        .client-profile-card:hover .client-avatar { transform: scale(1.05); border-color: var(--rose-gold-light); }
+        .client-handle { font-size: 8.5px; color: var(--text-muted); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+
+        /* --- CARROSSEL DE AVALIAÇÕES --- */
+        .review-carousel {
+            background: var(--surface-card); border: 1px dashed rgba(229, 190, 158, 0.4); border-radius: 14px;
+            padding: 20px 16px; position: relative; min-height: 160px; display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .review-slide { position: absolute; opacity: 0; transition: opacity 0.6s ease; width: 85%; pointer-events: none; display: flex; flex-direction: column; align-items: center; }
+        .review-slide.active { opacity: 1; z-index: 2; pointer-events: auto; }
+        
+        .reviewer-avatar {
+            width: 48px; height: 48px; border-radius: 50%; background-size: cover; background-position: center;
+            border: 2px solid var(--rose-gold); margin-bottom: 8px; box-shadow: 0 3px 10px rgba(229, 190, 158, 0.3);
+        }
+        .stars { color: var(--rose-gold); font-size: 10px; margin-bottom: 6px; }
+        .review-text { font-size: 11px; font-style: italic; color: var(--text-main); line-height: 1.4; margin-bottom: 8px; font-weight: 300; }
+        .review-author { font-size: 10px; color: var(--rose-gold-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+        
+        .carousel-indicators { position: absolute; bottom: 8px; display: flex; gap: 4px; }
+        .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: var(--transition); }
+        .dot.active { background: var(--rose-gold); width: 14px; border-radius: 3px; }
+
+        /* --- SITE EM CONSTRUÇÃO --- */
+        .construction-ui { text-align: center; padding: 30px 16px; background: rgba(0,0,0,0.3); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); }
+        .gears-icon-wrapper { font-size: 28px; color: var(--rose-gold); margin-bottom: 14px; display: flex; justify-content: center; gap: 6px; animation: gearRotate 6s linear infinite; }
+        @keyframes gearRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .loading-bar-wrapper { width: 100%; height: 2px; background: rgba(255,255,255,0.1); margin-top: 20px; position: relative; overflow: hidden; border-radius: 2px; }
+        .loading-bar-fill { position: absolute; left: 0; top: 0; height: 100%; width: 40%; background: var(--rose-gold); animation: loadingProgress 2s infinite ease-in-out; }
+        @keyframes loadingProgress { 0% { left: -40%; } 100% { left: 100%; } }
+
+        .footer { text-align: center; padding: 15px; font-size: 8.5px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="particles-bg"><div class="dust"></div></div>
+
+    <div class="app-wrapper">
+        <!-- HEADER / LOGO -->
+        <header class="header">
+            <div class="logo-symbol">
+                <div class="logo-line"></div>
+                <i class="fa-solid fa-glasses logo-icon" aria-hidden="true"></i>
+                <div class="logo-line right"></div>
+            </div>
+            <h1 class="brand-text">A N <span class="star-pos">N</span> Y Ó T I C <span class="star-pos delay">A</span></h1>
+            <p class="slogan">Cuidar da sua visão é o nosso maior compromisso. <span>Há mais de 10 anos transformando olhares</span></p>
+        </header>
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <nav class="tabs">
+            <button class="tab active" onclick="switchTab(event, 'atendimento')">Atendimento</button>
+            <button class="tab" onclick="switchTab(event, 'vitrine')">Vitrine</button>
+            <button class="tab" onclick="switchTab(event, 'experiencia')">Experiência</button>
+            <button class="tab" onclick="switchTab(event, 'site')">Site</button>
+        </nav>
+
+        <!-- ABA 1: ATENDIMENTO & LOJAS -->
+        <section id="tab-atendimento" class="tab-content active">
+            <a href="https://wa.me/5588981728607?text=Olá!%20Vim%20pelo%20canal%20digital%20e%20gostaria%20de%20atendimento%20VIP%20com%20um%20consultor%20especializado." target="_blank" rel="noopener noreferrer" class="btn-primary" onclick="vibrateDevice()">
+                <i class="fa-brands fa-whatsapp fa-xl" aria-hidden="true"></i> Falar com Consultor VIP
+            </a>
+
+            <a href="https://instagram.com/annyoticaof" target="_blank" rel="noopener noreferrer" class="btn-instagram" onclick="vibrateDevice()">
+                <i class="fa-brands fa-instagram fa-lg" aria-hidden="true"></i> Instagram (@annyoticaof)
+            </a>
+            
+            <div class="card">
+                <div class="card-header"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span class="card-title">Matriz - Limoeiro do Norte</span></div>
+                <p class="card-text">Avenida Dom Aureliano Matos, Nº 2388, Centro.</p>
+                <a href="https://maps.google.com/?q=Av.+Dom+Aureliano+Matos,+2388,+Limoeiro+do+Norte+-+CE" target="_blank" rel="noopener noreferrer" class="btn-outline" onclick="vibrateDevice()">
+                    <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Traçar Rota (GPS)
+                </a>
+            </div>
+
+            <div class="card">
+                <span class="badge-status"><i class="fa-solid fa-hammer"></i> Nova Unidade em Obras</span>
+                <div class="card-header" style="margin-top: 4px;"><i class="fa-solid fa-person-digging" aria-hidden="true"></i><span class="card-title">São Miguel - RN</span></div>
+                <p class="card-text"><strong>Comercial Andrade</strong>. Unidade em fase final de montagem.</p>
+                <a href="https://maps.google.com/?q=Comercial+Andrade+Sao+Miguel+RN" target="_blank" rel="noopener noreferrer" class="btn-outline" onclick="vibrateDevice()">
+                    <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Ver no GPS
+                </a>
+            </div>
+        </section>
+
+        <!-- ABA 2: VITRINE -->
+        <section id="tab-vitrine" class="tab-content">
+            <div class="slider-wrapper">
+                <div class="slider-title"><i class="fa-solid fa-crown" aria-hidden="true"></i> Coleções Exclusivas</div>
+                
+                <div class="parallax-slider-container" id="parallaxSlider">
+                    <div class="parallax-slide active" style="background-image: url('https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80');">
+                        <div class="parallax-tag">Coleção Solar &bull; 2026</div>
+                    </div>
+                    <div class="parallax-slide" style="background-image: url('https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80');">
+                        <div class="parallax-tag">Receituário Exclusivo</div>
+                    </div>
+                    <div class="parallax-slide" style="background-image: url('https://images.unsplash.com/photo-1577803645773-f96470509666?auto=format&fit=crop&w=800&q=80');">
+                        <div class="parallax-tag">Novos Lançamentos</div>
+                    </div>
+
+                    <div class="slider-controls">
+                        <button class="slider-btn" onclick="moveParallax(-1); vibrateDevice();"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="slider-btn" onclick="moveParallax(1); vibrateDevice();"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carrossel de Clientes (Loop Infinito Perfeito com Duplicação) -->
+            <div class="circle-slider-wrapper">
+                <div class="slider-title"><i class="fa-solid fa-camera-retro" aria-hidden="true"></i> Nossos Clientes VIP</div>
+                <div class="circle-marquee">
+                    <div class="circle-marquee-content" id="clientMarquee">
+                        <!-- Bloco Original -->
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@mariana</span>
+                        </div>
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@carlos.edu</span>
+                        </div>
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@leticia.g</span>
+                        </div>
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@rodrigo.m</span>
+                        </div>
+                        <!-- Bloco Duplicado Exato para Loop Contínuo Sem Cortes -->
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@mariana</span>
+                        </div>
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@carlos.edu</span>
+                        </div>
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@leticia.g</span>
+                        </div>
+                        <div class="client-profile-card">
+                            <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80');"></div>
+                            <span class="client-handle">@rodrigo.m</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 3: EXPERIÊNCIA E AVALIAÇÕES -->
+        <section id="tab-experiencia" class="tab-content">
+            <h3 style="font-size: 10.5px; color: var(--rose-gold); text-transform: uppercase; letter-spacing: 1.5px;">O que dizem sobre nós</h3>
+            
+            <div class="review-carousel" id="reviewBox">
+                <div class="review-slide active">
+                    <div class="reviewer-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');"></div>
+                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="review-text">"Padrão altíssimo! O atendimento presencial é impecável e as armações são exclusivas."</p>
+                    <div class="review-author">Mariana Silveira</div>
+                </div>
+                
+                <div class="review-slide">
+                    <div class="reviewer-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80');"></div>
+                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="review-text">"Anos sendo cliente fiel. A Anny Ótica nunca decepciona, entrega rápida e joias perfeitas."</p>
+                    <div class="review-author">Carlos Eduardo</div>
+                </div>
+                
+                <div class="review-slide">
+                    <div class="reviewer-avatar" style="background-image: url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=80');"></div>
+                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="review-text">"Comprei pelo WhatsApp e recebi em casa com uma embalagem de luxo surreal!"</p>
+                    <div class="review-author">Letícia G.</div>
+                </div>
+                
+                <div class="carousel-indicators">
+                    <div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 4: SITE EM CONSTRUÇÃO -->
+        <section id="tab-site" class="tab-content">
+            <div class="construction-ui">
+                <div class="gears-icon-wrapper">
+                    <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                    <i class="fa-solid fa-gear" style="font-size: 18px; margin-top: 8px;" aria-hidden="true"></i>
+                </div>
+                <h3 style="font-size: 14px; color: var(--rose-gold-light); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1.5px;">Site em Construção</h3>
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">Estamos programando um novo espaço online à altura da sua exclusividade.</p>
+                
+                <div class="loading-bar-wrapper">
+                    <div class="loading-bar-fill"></div>
+                </div>
+                <div style="font-size: 8.5px; color: var(--rose-gold); margin-top: 6px; text-transform: uppercase; letter-spacing: 2px;">Em Breve</div>
+            </div>
+        </section>
+
+        <footer class="footer">Anny Ótica &bull; Todos os Direitos Reservados</footer>
+    </div>
+
+    <script>
+        // Função de Feedback Háptico (Vibração Assertiva ao Toque)
+        function vibrateDevice() {
+            if ("vibrate" in navigator) {
+                navigator.vibrate(35); // Vibração sutil e profissional de 35ms
+            }
+        }
+
+        function switchTab(event, tabId) {
+            vibrateDevice();
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        let currentParallax = 0;
+        const parallaxSlides = document.querySelectorAll('.parallax-slide');
+
+        function moveParallax(direction) {
+            if (!parallaxSlides.length) return;
+            parallaxSlides[currentParallax].classList.remove('active');
+            currentParallax = (currentParallax + direction + parallaxSlides.length) % parallaxSlides.length;
+            parallaxSlides[currentParallax].classList.add('active');
+        }
+
+        setInterval(() => { moveParallax(1); }, 5000);
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.review-slide');
+        const dots = document.querySelectorAll('.dot');
+        
+        function nextSlide() {
+            if (!slides.length || !dots.length) return;
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        setInterval(nextSlide, 4500);
+    </script>
+</body>
+</html>
