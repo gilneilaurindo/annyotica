@@ -66,31 +66,19 @@
         .app-wrapper::-webkit-scrollbar { display: none; }
         @keyframes appFadeIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* --- HEADER & LOGO --- */
+        /* --- HEADER & LOGO OFICIAL DO GITHUB --- */
         .header { text-align: center; padding: 25px 16px 15px 16px; flex-shrink: 0; }
-        .logo-symbol { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px; }
-        .logo-line { height: 1px; width: 35px; background: linear-gradient(90deg, transparent, var(--rose-gold)); }
-        .logo-line.right { background: linear-gradient(270deg, transparent, var(--rose-gold)); }
-        .logo-icon { color: var(--rose-gold); font-size: 22px; animation: glowPulse 3s infinite alternate; }
-        
-        .brand-text {
-            font-size: 28px; font-weight: 300; letter-spacing: 4px;
-            background: linear-gradient(to right, var(--rose-gold-light), var(--rose-gold), var(--rose-gold-dark));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;
+        .logo-img-container {
+            width: 100%; max-width: 260px; margin: 0 auto 10px auto;
+            display: flex; justify-content: center; align-items: center;
+            filter: drop-shadow(0 0 12px rgba(229, 190, 158, 0.25));
+            animation: glowPulse 3s infinite alternate;
         }
+        .logo-img { width: 100%; height: auto; object-fit: contain; display: block; }
         
-        .star-pos { position: relative; display: inline-block; }
-        .star-pos::before {
-            content: '✦'; position: absolute; top: -8px; right: -8px; font-size: 12px;
-            color: var(--rose-gold-light); text-shadow: 0 0 10px rgba(254, 241, 229, 0.8);
-            -webkit-text-fill-color: var(--rose-gold-light); animation: starTwinkle 2s infinite ease-in-out alternate;
-        }
-        .star-pos.delay::before { animation-delay: 1s; }
-        
-        @keyframes starTwinkle { 0% { opacity: 0.3; transform: scale(0.7) rotate(0deg); } 100% { opacity: 1; transform: scale(1.2) rotate(20deg); } }
-        @keyframes glowPulse { 0% { filter: drop-shadow(0 0 2px var(--rose-gold)); } 100% { filter: drop-shadow(0 0 10px var(--rose-gold-light)); } }
+        @keyframes glowPulse { 0% { filter: drop-shadow(0 0 4px var(--rose-gold)); } 100% { filter: drop-shadow(0 0 12px var(--rose-gold-light)); } }
 
-        .slogan { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 8px; line-height: 1.4; font-weight: 500; }
+        .slogan { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 6px; line-height: 1.4; font-weight: 500; }
         .slogan span { color: var(--rose-gold); font-weight: 600; display: block; margin-top: 2px; }
 
         /* --- MENU DE NAVEGAÇÃO --- */
@@ -249,14 +237,11 @@
     <div class="particles-bg"><div class="dust"></div></div>
 
     <div class="app-wrapper">
-        <!-- HEADER / LOGO -->
+        <!-- HEADER COM A SUA LOGO OFICIAL DO GITHUB -->
         <header class="header">
-            <div class="logo-symbol">
-                <div class="logo-line"></div>
-                <i class="fa-solid fa-glasses logo-icon" aria-hidden="true"></i>
-                <div class="logo-line right"></div>
+            <div class="logo-img-container">
+                <img src="https://raw.githubusercontent.com/gilneilaurindo/annyotica/main/lOGO%20aNNE.png" alt="Anny Ótica Logo" class="logo-img">
             </div>
-            <h1 class="brand-text">A N <span class="star-pos">N</span> Y Ó T I C <span class="star-pos delay">A</span></h1>
             <p class="slogan">Cuidar da sua visão é o nosso maior compromisso. <span>Há mais de 10 anos transformando olhares</span></p>
         </header>
 
@@ -319,7 +304,7 @@
                 </div>
             </div>
 
-            <!-- Carrossel de Clientes (Loop Infinito Perfeito com Duplicação) -->
+            <!-- Carrossel de Clientes (Loop Infinito Perfeito) -->
             <div class="circle-slider-wrapper">
                 <div class="slider-title"><i class="fa-solid fa-camera-retro" aria-hidden="true"></i> Nossos Clientes VIP</div>
                 <div class="circle-marquee">
@@ -341,7 +326,7 @@
                             <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80');"></div>
                             <span class="client-handle">@rodrigo.m</span>
                         </div>
-                        <!-- Bloco Duplicado Exato para Loop Contínuo Sem Cortes -->
+                        <!-- Bloco Duplicado para Loop Perfeito -->
                         <div class="client-profile-card">
                             <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80');"></div>
                             <span class="client-handle">@mariana</span>
@@ -416,10 +401,9 @@
     </div>
 
     <script>
-        // Função de Feedback Háptico (Vibração Assertiva ao Toque)
         function vibrateDevice() {
             if ("vibrate" in navigator) {
-                navigator.vibrate(35); // Vibração sutil e profissional de 35ms
+                navigator.vibrate(35);
             }
         }
 
